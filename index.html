@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Customer Feedback Form</title>
+    <style>
+      .error-message {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Customer Feedback Form</h1>
+
+    <form id="feedbackForm">
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+      <div>
+        <label for="rating">Rating:</label>
+        <input type="radio" id="rating1" name="rating" value="1" required />
+        <label for="rating1">1 star</label>
+        <input type="radio" id="rating2" name="rating" value="2" />
+        <label for="rating2">2 stars</label>
+        <input type="radio" id="rating3" name="rating" value="3" />
+        <label for="rating3">3 stars</label>
+        <input type="radio" id="rating4" name="rating" value="4" />
+        <label for="rating4">4 stars</label>
+        <input type="radio" id="rating5" name="rating" value="5" />
+        <label for="rating5">5 stars</label>
+      </div>
+      <div>
+        <label for="comments">Comments:</label>
+        <textarea id="comments" name="comments"></textarea>
+      </div>
+      <div>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+
+    <div id="errorMessages"></div>
+
+    <script>
+      document
+        .getElementById("feedbackForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          var nameInput = document.getElementById("name");
+          var emailInput = document.getElementById("email");
+          var ratingInputs = document.querySelectorAll('input[name="rating"]');
+          var commentsInput = document.getElementById("comments");
+          var errorMessages = [];
+
+          // Validate name
+          if (nameInput.value.trim() === "") {
+            errorMessages.push("Name is required");
+          }
+
+          // Validate email
+          if (emailInput.value.trim() === "") {
+            errorMessages.push("Email is required");
+          }
+
+          // Validate rating
+          var ratingChecked = false;
+          for (var i = 0; i < ratingInputs.length; i++) {
+            if (ratingInputs[i].checked) {
+              ratingChecked = true;
+              break;
+            }
+          }
+          if (!ratingChecked) {
+            errorMessages.push("Please select a rating");
+          }
+
+          // Display error messages or submit the form
+          var errorContainer = document.getElementById("errorMessages");
+          if (errorMessages.length > 0) {
+            errorContainer.innerHTML = "";
+            errorMessages.forEach(function (message) {
+              var errorMessage = document.createElement("p");
+              errorMessage.textContent = message;
+              errorContainer.appendChild(errorMessage);
+            });
+          } else {
+            errorContainer.innerHTML = "";
+            event.target.submit(); // Uncomment this line to submit the form
+          }
+        });
+    </script>
+  </body>
+</html>
